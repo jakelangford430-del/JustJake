@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en-AU"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Answer a few questions and get practical ChatGPT prompts tailored to your experience, industry and task.">
+  <meta name="theme-color" content="#2C3E2D">
+  <title>The No-BS Guide to AI | Just Jake</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+    :root{--olive:#2C3E2D;--sage:#6B7F5E;--charcoal:#2D3230;--warm-white:#FAF8F5;--warm-cream:#F5F0E6;--sage-light:#e8ede4;}
+    body{font-family:'Inter',sans-serif;color:var(--charcoal);}
+    .font-antonio{font-family:'Antonio',sans-serif;font-weight:700;}
+    .card-option{transition:all 0.2s ease;border:2px solid transparent;}
+    .card-option:hover{border-color:var(--sage);transform:translateY(-2px);}
+    .card-option.selected{border-color:var(--sage);background:var(--warm-cream);}
+    .copy-btn.copied{background:var(--olive)!important;}
+    .fade-in{animation:fadeIn 0.4s ease forwards;opacity:0;}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+    .stagger-1{animation-delay:0.05s;}.stagger-2{animation-delay:0.1s;}.stagger-3{animation-delay:0.15s;}.stagger-4{animation-delay:0.2s;}.stagger-5{animation-delay:0.25s;}.stagger-6{animation-delay:0.3s;}.stagger-7{animation-delay:0.35s;}
+    .pulse-once{animation:pulse 0.6s ease 0.3s 1;}
+    @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.03);}}
+    @media(max-width:640px){.card-option{min-height:56px;}}
+  </style>
+  <link rel="stylesheet" href="styles.css">
+ </head>
+ <body data-template-id="__page-root" class="min-h-screen">
+  <header id="welcome-section" class="hero">
+   <div class="site-nav">
+    <span class="brand-mark" aria-label="Just Jake">Just<br>Jake</span>
+    <span class="nav-note">The No-BS Guide to AI</span>
+   </div>
+   <div class="hero-grid">
+    <div class="hero-intro">
+     <span class="eyebrow">Interactive prompt builder</span>
+     <h1 data-template-id="hero-title">Your questions in. <span>Better prompts out.</span></h1>
+     <p data-template-id="hero-subtitle" class="hero-copy">Choose your experience, voice, industry and task. Get three tailored prompts ready to use in ChatGPT.</p>
+     <div class="hero-actions">
+      <button type="button" data-template-id="start-btn" class="primary-cta pulse-once" onclick="startGuide()">Start with question one &rarr;</button>
+      <span class="hero-proof">5 quick choices. 3 useful prompts. No sign-up.</span>
+     </div>
+    </div>
+    <aside class="builder-preview" aria-label="Preview of the prompt builder">
+     <div class="preview-header"><span>Question 1 of 5</span><i aria-hidden="true"></i></div>
+     <h2>How familiar are you with ChatGPT?</h2>
+     <div class="preview-answers" aria-hidden="true"><span>No, never</span><span>Yes, a little</span><span>Yes, regularly</span></div>
+     <div class="preview-queue" aria-hidden="true">
+      <small>Up next</small>
+      <span>Voice</span><span>Industry</span><span>Task</span>
+     </div>
+     <div class="preview-result"><small>Your result</small><strong>3 ready-to-use prompts</strong></div>
+    </aside>
+   </div>
+  </header>
+  <main id="main-container" class="hidden" aria-live="polite">
+   <nav class="progress-shell mini-nav" aria-label="Guide navigation">
+    <button type="button" class="mini-nav-action" id="back-btn" onclick="goBack()">&larr; Back</button>
+    <div class="mini-progress" aria-live="polite">
+     <span id="step-summary">Step 1 of 5</span>
+    <ol class="progress-list">
+      <li class="progress-item active" data-progress="1"><span>1</span><b>Experience</b></li>
+      <li class="progress-item" data-progress="2"><span>2</span><b>Voice</b></li>
+      <li class="progress-item" data-progress="3"><span>3</span><b>Industry</b></li>
+      <li class="progress-item" data-progress="4"><span>4</span><b>Task</b></li>
+      <li class="progress-item" data-progress="5"><span>5</span><b>Prompts</b></li>
+     </ol>
+    </div>
+    <button type="button" class="mini-nav-action" onclick="resetAll()">Restart</button>
+   </nav>
+   <!-- Experience -->
+   <section id="experience-section" class="fade-in mb-12">
+    <h2 data-template-id="exp-title" class="canva-text font-antonio text-2xl mb-6" style="color: rgb(45, 50, 48); font-weight: 700; font-style: normal; font-size: 24px;">Have you used ChatGPT before?</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4" id="exp-grid">
+     <button class="card-option rounded-xl p-5 text-left stagger-1 fade-in" style="background:white;" data-value="never" onclick="selectExperience(this)"><span class="font-medium">No, never</span></button>
+     <button class="card-option rounded-xl p-5 text-left stagger-2 fade-in" style="background:white;" data-value="sometimes" onclick="selectExperience(this)"><span class="font-medium">Yes, a little</span></button>
+     <button class="card-option rounded-xl p-5 text-left stagger-3 fade-in" style="background:white;" data-value="regular" onclick="selectExperience(this)"><span class="font-medium">Yes, regularly</span></button>
+    </div>
+   </section><!-- Beginner -->
+   <section id="beginner-section" class="hidden fade-in mb-12">
+    <span class="section-kicker">Quick beginner setup</span>
+    <h2 data-template-id="beginner-title" class="canva-text font-antonio text-2xl mb-4" style="color: rgb(45, 50, 48); font-weight: 700; font-style: normal; font-size: 24px;">Do you have a ChatGPT account?</h2>
+    <div class="yes-no-grid">
+     <button type="button" class="answer-button" onclick="answerAccountQuestion(true)">Yes</button>
+     <button type="button" class="answer-button answer-button-outline" onclick="answerAccountQuestion(false)">No</button>
+    </div>
+    <details id="account-setup" class="reveal-panel setup-reveal">
+     <summary>Show the two-minute setup</summary>
+     <ol>
+      <li>Open ChatGPT and create a free account.</li>
+      <li>Keep this guide open in another tab.</li>
+     </ol>
+     <div class="flex flex-col sm:flex-row gap-3">
+      <a href="https://chatgpt.com" target="_blank" rel="noopener noreferrer" class="inline-block font-medium px-5 py-2 rounded-lg text-sm" style="background:var(--sage);color:var(--warm-white);">Open ChatGPT</a>
+      <button type="button" onclick="showToneSelector()" class="font-medium px-5 py-2 rounded-lg text-sm" style="background:var(--olive);color:var(--warm-white);">Done - choose my voice</button>
+     </div>
+    </details>
+   </section><!-- Tone -->
+   <section id="tone-section" class="hidden fade-in mb-12">
+    <h2 data-template-id="tone-title" class="canva-text font-antonio text-2xl mb-4" style="color: rgb(45, 50, 48); font-weight: 700; font-style: normal; font-size: 24px;">How should your business sound?</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6" id="tone-grid">
+     <button class="card-option rounded-xl p-5 text-left" style="background:white;" data-value="friendly and professional" onclick="selectTone(this)"><span class="font-medium">Friendly and professional</span></button>
+     <button class="card-option rounded-xl p-5 text-left" style="background:white;" data-value="casual and local" onclick="selectTone(this)"><span class="font-medium">Casual and local</span></button>
+     <button class="card-option rounded-xl p-5 text-left sm:col-span-2" style="background:white;" data-value="direct and no-fuss" onclick="selectTone(this)"><span class="font-medium">Direct and no-fuss</span></button>
+     <details class="reveal-panel choice-reveal sm:col-span-2">
+      <summary>More voice choices</summary>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
+       <button class="card-option rounded-xl p-5 text-left" style="background:white;" data-value="warm and helpful" onclick="selectTone(this)"><span class="font-medium">Warm and helpful</span></button>
+       <button class="card-option rounded-xl p-5 text-left" style="background:white;" data-value="confident and sales-focused" onclick="selectTone(this)"><span class="font-medium">Confident and sales-focused</span></button>
+      </div>
+     </details>
+    </div>
+    <div id="tone-prompt-box" class="hidden">
+     <button onclick="showPromptPicker()" class="font-medium px-5 py-3 rounded-lg text-sm" style="background:var(--olive);color:var(--warm-white);">Continue to industry &rarr;</button>
+     <details class="reveal-panel mt-4">
+      <summary>Preview or copy my voice setup</summary>
+      <div class="p-4 rounded-lg my-3" style="background:var(--warm-cream);"><code id="tone-prompt-text" class="text-sm whitespace-pre-wrap block"></code></div>
+      <button id="copy-tone-btn" onclick="copyTonePrompt(this)" class="copy-btn font-medium px-5 py-2 rounded-lg text-sm" style="background:var(--sage);color:var(--warm-white);">Copy voice setup</button>
+     </details>
+    </div>
+   </section><!-- Prompt Picker -->
+   <div id="prompt-picker" class="hidden">
+    <!-- Industry -->
+    <section id="step-industry" class="fade-in mb-12">
+     <h2 data-template-id="step1-title" class="canva-text font-antonio text-2xl mb-2" style="color: rgb(45, 50, 48); font-weight: 700; font-style: normal; font-size: 24px;">Select your industry</h2>
+     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4" id="industry-grid">
+      <button class="card-option rounded-xl p-5 text-left stagger-1 fade-in" style="background:white;" data-value="Tradie / Construction" onclick="selectIndustry(this)"><span class="font-medium block">Tradie / Construction</span></button>
+      <button class="card-option rounded-xl p-5 text-left stagger-2 fade-in" style="background:white;" data-value="Landscaping / Lawn Care" onclick="selectIndustry(this)"><span class="font-medium block">Landscaping &amp; Lawn Care</span></button>
+      <button class="card-option rounded-xl p-5 text-left stagger-3 fade-in" style="background:white;" data-value="Cleaning Business" onclick="selectIndustry(this)"><span class="font-medium block">Cleaning Business</span></button>
+      <button class="card-option rounded-xl p-5 text-left stagger-4 fade-in" style="background:white;" data-value="Handyman / Maintenance" onclick="selectIndustry(this)"><span class="font-medium block">Handyman &amp; Maintenance</span></button>
+      <button class="card-option rounded-xl p-5 text-left stagger-5 fade-in" style="background:white;" data-value="Mobile Service Business" onclick="selectIndustry(this)"><span class="font-medium block">Mobile Service Business</span></button>
+      <button class="card-option rounded-xl p-5 text-left stagger-6 fade-in" style="background:white;" data-value="Office / Administration" onclick="selectIndustry(this)"><span class="font-medium block">Office &amp; Administration</span></button>
+      <button class="card-option rounded-xl p-5 text-left sm:col-span-2 stagger-7 fade-in" style="background:white;" data-value="Other Small Business" onclick="selectIndustry(this)"><span class="font-medium block">Other Small Business</span></button>
+     </div>
+     <details class="reveal-panel mt-4"><summary>Not sure which one to choose?</summary><p>Pick the closest match. The prompt can still be edited before you use it.</p></details>
+    </section><!-- Task -->
+    <section id="step-task" class="hidden fade-in mb-12">
+     <h2 data-template-id="step2-title" class="canva-text font-antonio text-2xl mb-6" style="color: rgb(45, 50, 48); font-weight: 700; font-style: normal; font-size: 24px;">What do you need help with?</h2>
+     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4" id="task-grid"></div>
+    </section><!-- Results -->
+    <section id="results-section" class="hidden fade-in mb-12">
+     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+      <h2 data-template-id="results-title" class="canva-text font-antonio text-2xl" style="color: rgb(45, 50, 48); font-weight: 700; font-style: normal; font-size: 24px;">Your ChatGPT prompts</h2>
+     </div>
+     <p id="results-tip" data-template-id="results-tip" class="canva-text text-sm mb-6 p-3 rounded-lg" style="background: var(--warm-cream); color: rgb(45, 50, 48); font-weight: 400; font-style: normal; font-size: 16px;">Your prompts now match your experience level and selected voice. Replace anything inside [brackets] with your details before pasting into ChatGPT.</p>
+     <details class="reveal-panel result-help mb-6">
+      <summary>How do I use these prompts?</summary>
+      <ol class="implementation-plan">
+       <li><strong>Pick one.</strong> Start with the most useful task.</li>
+       <li><strong>Add context.</strong> Replace the bracketed fields. Do not paste sensitive data.</li>
+       <li><strong>Refine it.</strong> Ask ChatGPT to make the result shorter or clearer.</li>
+      </ol>
+     </details>
+     <div id="prompts-container" class="space-y-5"></div>
+    </section><!-- CTA -->
+    <section id="cta-section" class="feedback-section hidden fade-in text-center py-10 px-5 sm:px-8 rounded-2xl mb-12" style="background:var(--olive);">
+     <span class="feedback-kicker">Finished?</span>
+     <h2 data-template-id="cta-title" class="canva-text font-antonio text-2xl md:text-3xl mb-4" style="color: rgb(250, 248, 245); font-weight: 700; font-style: normal; font-size: 24px;">Help make this tool better.</h2>
+     <p data-template-id="cta-text" class="canva-text mb-8" style="color: rgb(200, 212, 192); font-weight: 400; font-style: normal; font-size: 16px;">Share what worked, what did not and what prompts you want next.</p>
+     <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="https://tally.so/r/jaglrx" target="_blank" rel="noopener noreferrer" data-template-id="feedback-btn" class="canva-button font-antonio px-7 py-4 rounded-lg text-base sm:text-lg inline-block" style="background: rgb(245, 240, 230); color: rgb(45, 50, 48); font-weight: 700; font-style: normal; font-size: 18px;">Share feedback &rarr;</a>
+      <button type="button" onclick="resetAll()" class="feedback-secondary font-antonio px-7 py-4 rounded-lg text-base sm:text-lg">Build another prompt</button>
+     </div>
+     <small class="feedback-note">Feedback is optional and opens in a new tab.</small>
+    </section>
+   </div>
+  </main>
+  <footer class="site-footer"><span>The No-BS Guide to AI</span><span>Built by Just Jake</span></footer>
+  <script>
+    let selectedIndustry='';let selectedTask='';let selectedTone='';let selectedExperience='';let currentStep=1;
+
+    const experienceGuidance={
+      'never':'Assume I am completely new to AI. Use plain English, explain what to do one step at a time, and avoid technical terms unless you define them.',
+      'once-twice':'Assume I am an AI beginner. Give clear numbered steps, include a short example, and explain any unfamiliar feature.',
+      'sometimes':'Assume I have a working knowledge of ChatGPT. Keep instructions practical, explain only the less obvious parts, and include ways to improve the first result.',
+      'regular':'Assume I use ChatGPT regularly. Skip the basics, be concise, and focus on stronger structure, reusable workflows and higher-quality output.'
+    };
+
+    const experienceLabels={
+      'never':'new to AI',
+      'once-twice':'an AI beginner',
+      'sometimes':'a regular AI user',
+      'regular':'an experienced AI user'
+    };
+
+    function setProgress(step){
+      currentStep=step;
+      const labels=['Experience','Voice','Industry','Task','Prompts'];
+      document.querySelectorAll('.progress-item').forEach((item,index)=>{
+        item.classList.toggle('active',index===step-1);
+        item.classList.toggle('done',index<step-1);
+        item.setAttribute('aria-current',index===step-1?'step':'false');
+      });
+      document.getElementById('step-summary').textContent=`Step ${step} of 5 - ${labels[step-1]}`;
+      document.getElementById('back-btn').textContent=step===1?'\u2190 Home':'\u2190 Back';
+    }
+
+    function showOnly(sectionId){
+      ['experience-section','beginner-section','tone-section','step-industry','step-task','results-section','cta-section'].forEach(id=>{
+        document.getElementById(id).classList.toggle('hidden',id!==sectionId);
+      });
+      if(sectionId==='step-industry'||sectionId==='step-task'||sectionId==='results-section')document.getElementById('prompt-picker').classList.remove('hidden');
+      requestAnimationFrame(()=>document.getElementById(sectionId).scrollIntoView({behavior:'smooth'}));
+    }
+
+    function goBack(){
+      if(currentStep===5){showOnly('step-task');setProgress(4);return;}
+      if(currentStep===4){showOnly('step-industry');setProgress(3);return;}
+      if(currentStep===3){document.getElementById('prompt-picker').classList.add('hidden');showOnly('tone-section');setProgress(2);return;}
+      if(currentStep===2){showOnly('experience-section');setProgress(1);return;}
+      document.getElementById('main-container').classList.add('hidden');
+      document.getElementById('welcome-section').classList.remove('hidden');
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+
+    function selectCard(group,el){
+      document.querySelectorAll(`${group} .card-option`).forEach(card=>{
+        card.classList.remove('selected');
+        card.setAttribute('aria-pressed','false');
+      });
+      el.classList.add('selected');
+      el.setAttribute('aria-pressed','true');
+    }
+
+    function startGuide(){
+      document.getElementById('welcome-section').classList.add('hidden');
+      document.getElementById('main-container').classList.remove('hidden');
+      setProgress(1);
+      document.getElementById('experience-section').scrollIntoView({behavior:'smooth'});
+    }
+
+    function selectExperience(el){
+      selectCard('#exp-grid',el);
+      selectedExperience=el.dataset.value;
+      if(selectedExperience==='never'){
+        document.getElementById('experience-section').classList.add('hidden');
+        document.getElementById('beginner-section').classList.remove('hidden');
+        document.getElementById('tone-section').classList.add('hidden');
+        setTimeout(()=>document.getElementById('beginner-section').scrollIntoView({behavior:'smooth'}),100);
+      }else{
+        document.getElementById('beginner-section').classList.add('hidden');
+        showToneSelector();
+      }
+    }
+
+    function answerAccountQuestion(hasAccount){
+      if(hasAccount){showToneSelector();return;}
+      document.getElementById('account-setup').open=true;
+      document.getElementById('account-setup').scrollIntoView({behavior:'smooth',block:'center'});
+    }
+
+    function showToneSelector(){
+      document.getElementById('experience-section').classList.add('hidden');
+      document.getElementById('beginner-section').classList.add('hidden');
+      document.getElementById('tone-section').classList.remove('hidden');
+      setProgress(2);
+      setTimeout(()=>document.getElementById('tone-section').scrollIntoView({behavior:'smooth'}),100);
+    }
+
+    function selectTone(el){
+      selectCard('#tone-grid',el);
+      selectedTone=el.dataset.value;
+      const prompt=`You are helping a business operating in Australia. From now on, use a ${selectedTone} tone. Write in Australian English and use Australian spelling, terminology, dates, currency and business context. Avoid corporate jargon, over-the-top sales language, American spelling and assumptions based on US laws or practices. Keep the wording practical and natural. For tax, employment, payroll, safety, privacy or legal topics, clearly flag anything that needs to be checked against current Australian requirements.`;
+      document.getElementById('tone-prompt-text').textContent=prompt;
+      document.getElementById('tone-prompt-box').classList.remove('hidden');
+    }
+
+    function copyTonePrompt(btn){copyText(btn,document.getElementById('tone-prompt-text').textContent);}
+
+    function showPromptPicker(){
+      if(!selectedTone)return;
+      document.getElementById('prompt-picker').classList.remove('hidden');
+      document.getElementById('beginner-section').classList.add('hidden');
+      document.getElementById('tone-section').classList.add('hidden');
+      document.getElementById('experience-section').classList.add('hidden');
+      document.getElementById('step-industry').classList.remove('hidden');
+      document.getElementById('step-task').classList.add('hidden');
+      setProgress(3);
+      setTimeout(()=>document.getElementById('step-industry').scrollIntoView({behavior:'smooth'}),100);
+    }
+
+    const industryTasks={"Tradie / Construction":[{label:"Customer follow-up"},{label:"Writing quotes"},{label:"Review requests"},{label:"Admin and checklists"},{label:"Social media ideas"},{label:"Business improvement"},{label:"Website or service wording"}],"Landscaping / Lawn Care":[{label:"Customer follow-up"},{label:"Social media ideas"},{label:"Review requests"},{label:"Writing quotes"},{label:"Admin and checklists"},{label:"Business improvement"}],"Cleaning Business":[{label:"Customer communication"},{label:"Marketing and social media"},{label:"Review requests"},{label:"Writing quotes"},{label:"Admin and checklists"},{label:"Business improvement"}],"Handyman / Maintenance":[{label:"Quoting"},{label:"Customer service"},{label:"Review requests"},{label:"Admin and checklists"},{label:"Social media ideas"},{label:"Business improvement"}],"Mobile Service Business":[{label:"Customer updates"},{label:"Administration"},{label:"Review requests"},{label:"Social media ideas"},{label:"Writing quotes"},{label:"Business improvement"}],"Office / Administration":[{label:"Customer service"},{label:"Administration"},{label:"Operations and processes"},{label:"Meeting notes"},{label:"Payroll"},{label:"Business improvement"}],"Other Small Business":[{label:"Customer communication"},{label:"Social media"},{label:"Business administration"},{label:"Reviews"},{label:"Business improvement"},{label:"Process improvement"}]};
+
+    function selectIndustry(el){
+      selectCard('#industry-grid',el);
+      selectedIndustry=el.dataset.value;
+      const tasks=industryTasks[selectedIndustry]||industryTasks["Other Small Business"];
+      const grid=document.getElementById('task-grid');
+      grid.innerHTML='';
+      tasks.forEach((t,i)=>{
+        const btn=document.createElement('button');
+        btn.className=`card-option rounded-xl p-5 text-left fade-in stagger-${i+1}`;
+        btn.style.cssText='background:white;';
+        btn.dataset.value=t.label;
+        btn.type='button';
+        btn.setAttribute('aria-pressed','false');
+        btn.onclick=function(){selectTask(this);};
+        btn.innerHTML=`<span class="font-medium">${t.label}</span>`;
+        grid.appendChild(btn);
+      });
+      document.getElementById('step-task').classList.remove('hidden');
+      document.getElementById('step-industry').classList.add('hidden');
+      document.getElementById('results-section').classList.add('hidden');
+      document.getElementById('cta-section').classList.add('hidden');
+      setProgress(4);
+      setTimeout(()=>document.getElementById('step-task').scrollIntoView({behavior:'smooth'}),100);
+    }
+
+    function selectTask(el){
+      selectCard('#task-grid',el);
+      selectedTask=el.dataset.value;
+      document.getElementById('step-task').classList.add('hidden');
+      setProgress(5);
+      generatePrompts();
+    }
+
+    function adaptPrompt(prompt){
+      const australianContext='AUSTRALIAN CONTEXT - IMPORTANT: This is for a business operating in Australia. Use Australian English, spelling, terminology, dates, currency and market context. Do not assume United States laws, pricing or business practices. If the task touches tax, employment, payroll, safety, privacy, consumer law or another regulated area, identify what must be verified against current Australian and relevant state or territory requirements. Do not present general information as professional advice.';
+      const voice=`VOICE: Use a ${selectedTone||'friendly and professional'} tone. Keep it natural, practical and appropriate for Australian customers.`;
+      const level=`EXPERIENCE LEVEL: ${experienceGuidance[selectedExperience]||experienceGuidance['once-twice']}`;
+      return `${australianContext}\n\n${voice}\n\n${level}\n\nTASK:\n${prompt}`;
+    }
+
+    function generatePrompts(){
+      const prompts=getPrompts(selectedIndustry,selectedTask);
+      const container=document.getElementById('prompts-container');
+      container.innerHTML='';
+      document.getElementById('results-tip').textContent=`Three prompts built for ${experienceLabels[selectedExperience]||'your experience level'}, in a ${selectedTone} voice and Australian context.`;
+      prompts.forEach((p,i)=>{
+        const adaptedPrompt=adaptPrompt(p.prompt);
+        const card=document.createElement('div');
+        card.className=`p-5 sm:p-6 rounded-xl fade-in stagger-${i+1}`;
+        card.style.cssText='background:white;border:1px solid #d4cfc5;';
+        card.innerHTML=`<details class="prompt-disclosure">
+          <summary><span><h3 class="font-antonio text-lg mb-1">${p.title}</h3><small>${p.when}</small></span><b>View prompt</b></summary>
+          <div class="prompt-content">
+           <div class="p-4 rounded-lg mb-4" style="background:var(--warm-cream);"><code class="text-sm whitespace-pre-wrap block">${adaptedPrompt}</code></div>
+           <button onclick="copyText(this,this.closest('details').querySelector('code').textContent)" class="copy-btn font-medium px-5 py-2 rounded-lg text-sm" style="background:var(--sage);color:var(--warm-white);">Copy prompt</button>
+          </div>
+         </details>`;
+        container.appendChild(card);
+      });
+      document.getElementById('results-section').classList.remove('hidden');
+      document.getElementById('cta-section').classList.remove('hidden');
+      setTimeout(()=>document.getElementById('results-section').scrollIntoView({behavior:'smooth'}),100);
+    }
+
+    async function copyText(btn,text){
+      try{
+        if(navigator.clipboard&&window.isSecureContext){
+          await navigator.clipboard.writeText(text);
+        }else{
+          const area=document.createElement('textarea');
+          area.value=text;area.setAttribute('readonly','');area.style.position='fixed';area.style.opacity='0';
+          document.body.appendChild(area);area.select();document.execCommand('copy');area.remove();
+        }
+        const orig=btn.textContent;
+        btn.textContent='Copied';btn.classList.add('copied');
+        setTimeout(()=>{btn.textContent=orig;btn.classList.remove('copied');},2000);
+      }catch(error){
+        btn.textContent='Copy failed - select the text';
+      }
+    }
+
+    function resetAll(){
+      selectedIndustry='';selectedTask='';selectedTone='';selectedExperience='';
+      document.querySelectorAll('.card-option').forEach(c=>{c.classList.remove('selected');c.setAttribute('aria-pressed','false');});
+      document.querySelectorAll('#main-container details').forEach(details=>details.open=false);
+      ['beginner-section','tone-section','prompt-picker','step-task','results-section','cta-section'].forEach(id=>document.getElementById(id).classList.add('hidden'));
+      document.getElementById('tone-prompt-box').classList.add('hidden');
+      document.getElementById('account-setup').open=false;
+      document.getElementById('experience-section').classList.remove('hidden');
+      document.getElementById('main-container').classList.add('hidden');
+      document.getElementById('welcome-section').classList.remove('hidden');
+      setProgress(1);
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+
+    function getPrompts(industry,task){
+      const p={"Tradie / Construction":{"Customer follow-up":[{title:"Quote Follow-Up SMS",when:"When a customer requested a quote but hasn't responded in 5 days",prompt:`Act as a friendly business assistant for a ${industry} business in Australia. Write a short SMS following up a customer who requested a quote but hasn't responded in 5 days. Keep it casual, not pushy.\n\nCustomer name: [name]\nJob type: [e.g. electrical work, roofing]\nQuote sent: [date]`},{title:"Post-Job Check-In",when:"After completing work, checking everything's good",prompt:`Act as a customer service assistant for a ${industry} business in Australia. Write a short follow-up message to send a day after completing a job. Check they're happy and open the door for a review.\n\nJob completed: [describe the work]\nCustomer name: [name]`},{title:"Re-Engagement Message",when:"When an old lead has gone quiet",prompt:`Act as a sales assistant for a ${industry} business in Australia. Write a friendly re-engagement message for a past enquiry that went quiet. Mention seasonal relevance or a current offer if applicable.\n\nOriginal enquiry: [what they asked about]\nTime since enquiry: [e.g. 3 weeks]`}],"Review requests":[{title:"Google Review Request",when:"After completing a trade job",prompt:`Act as a customer service assistant for a ${industry} business in Australia. Write a short, friendly message asking a happy customer to leave a Google review after completing their job. Keep it casual and include my review link.\n\nBusiness name: [name]\nGoogle review link: [link]\nJob completed: [brief description]`},{title:"Review Reply",when:"Replying to a positive Google review",prompt:`Act as the owner of a ${industry} business in Australia. Write a short, genuine reply to this positive Google review. Keep it personal and thankful.\n\nThe review says: [paste review]`},{title:"Review Nudge",when:"They said they'd leave one but haven't",prompt:`Act as a friendly assistant for a ${industry} business in Australia. Write a gentle follow-up reminding a customer about leaving a Google review. Keep it light.\n\nCustomer: [name]\nJob done: [when and what]`}],"Writing quotes":[{title:"Professional Quote Email",when:"Sending a quote that looks professional",prompt:`Act as a business writing assistant for a ${industry} business in Australia. Write a professional quote email with a friendly intro, scope of work, pricing and payment terms. Keep it clear.\n\nJob: [description]\nPricing: [breakdown]\nTimeline: [when]`},{title:"Quote with Options",when:"Offering basic vs premium options",prompt:`Act as a business assistant for a ${industry} business in Australia. Write a quote that includes a base option and a premium option. Make the upsell feel helpful.\n\nBase job: [description + price]\nPremium option: [description + price]`},{title:"Quote Follow-Up",when:"They haven't replied to your quote",prompt:`Act as a sales assistant for a ${industry} business in Australia. Write a friendly follow-up for a quote sent [number] days ago. Check if they have questions.\n\nQuote was for: [brief description]`}],"Admin and checklists":[{title:"Pre-Job Checklist",when:"Creating a standard checklist for a job type",prompt:`Act as an operations assistant for a ${industry} business in Australia. Create a practical pre-job checklist including materials check, safety, customer communication and site prep.\n\nJob type: [e.g. bathroom renovation, hot water install]`},{title:"End-of-Week Admin",when:"Friday wrap-up routine",prompt:`Act as a business assistant for a ${industry} business in Australia. Create a simple end-of-week admin checklist covering invoicing, follow-ups, scheduling, tool maintenance and job tracking. Keep it realistic for a busy tradie.`},{title:"New Customer Process",when:"Standardising how you handle new clients",prompt:`Act as an operations assistant for a ${industry} business in Australia. Create a new customer onboarding process from first enquiry to job completion. Include communication touchpoints.\n\nTypical job flow: [describe briefly]`}],"Social media ideas":[{title:"Week of Content Ideas",when:"When you've got nothing to post",prompt:`Act as a social media assistant for a ${industry} business in Australia. Give me 5 social media post ideas for this week. Mix of before/after shots, tips, behind-the-scenes and job highlights. Keep captions short.\n\nMy business does: [describe services]`},{title:"Before & After Caption",when:"Got a good job photo to share",prompt:`Act as a social media copywriter for a ${industry} business in Australia. Write a short, engaging caption for a before and after photo. Casual tone, Australian English, include a call to action.\n\nThe job was: [describe]`},{title:"Testimonial Post",when:"Sharing a good review on social",prompt:`Act as a social media assistant for a ${industry} business in Australia. Write a post sharing a customer testimonial. Genuine, not braggy.\n\nThe review says: [paste review]`}],"Business improvement":[{title:"Quick Wins",when:"Easy improvements for this month",prompt:`Act as a small business consultant for a ${industry} business in Australia. Give me 5 quick wins I can implement this month to improve efficiency, customer experience or revenue. No expensive tools.\n\nCurrent setup: [describe briefly]`},{title:"Pricing Review",when:"Not sure if you're charging enough",prompt:`Act as a business consultant for a ${industry} business in Australia. Help me think through whether my pricing is right. Ask me questions then suggest a framework.\n\nCurrent pricing: [describe]`},{title:"Systems Audit",when:"Things feel messy",prompt:`Act as an operations consultant for a ${industry} business in Australia. Help me identify which parts of my business need better systems. Ask about my workflow and suggest improvements.\n\nI currently handle: [describe]`}],"Website or service wording":[{title:"Service Page",when:"Need wording for your website",prompt:`Act as a copywriter for a ${industry} business in Australia. Write a service page description. Professional but not corporate. Under 150 words.\n\nService: [name]\nWhat's included: [details]\nPoint of difference: [why choose you]`},{title:"Homepage Headline",when:"Homepage needs better wording",prompt:`Act as a website copywriter for a ${industry} business in Australia. Write a strong homepage headline and 3-4 sentence intro. Clear what you do, who you help, what to do next.\n\nServices: [list]\nLocation: [area]\nIdeal customer: [describe]`},{title:"About Page",when:"Writing about yourself without cringing",prompt:`Act as a copywriter for a ${industry} business in Australia. Write an about page that's friendly and genuine. Include background, what you do and why you started.\n\nAbout me: [name, experience, values]`}]},"Landscaping / Lawn Care":{"Customer follow-up":[{title:"Quote Follow-Up",when:"Customer requested a landscaping quote but hasn't responded",prompt:`Act as a friendly business assistant for a ${industry} business in Australia. Write a follow-up message for a customer who requested a landscaping quote but hasn't responded. Casual and helpful.\n\nCustomer: [name]\nJob: [e.g. garden redesign, retaining wall]\nQuote sent: [date]`},{title:"Seasonal Check-In",when:"Touching base with regular clients before a new season",prompt:`Act as a customer service assistant for a ${industry} business in Australia. Write a seasonal check-in message for existing clients. Mention upcoming maintenance needs for the season.\n\nSeason: [e.g. spring]\nServices to mention: [e.g. mulching, pruning]`},{title:"Post-Job Follow-Up",when:"After completing landscaping work",prompt:`Act as a business assistant for a ${industry} business in Australia. Write a short follow-up after completing a landscaping job. Check they're happy and mention ongoing maintenance options.\n\nJob: [describe]\nCustomer: [name]`}],"Social media ideas":[{title:"10 Facebook Post Ideas",when:"Need a month of content",prompt:`Act as a social media assistant for a ${industry} business in Australia. Give me 10 Facebook post ideas for a lawn mowing and landscaping business. Mix of transformations, tips, seasonal content and engagement posts. Keep captions conversational.\n\nMy services: [describe]\nLocation: [area]`},{title:"Before & After Post",when:"Got a great transformation photo",prompt:`Act as a social media copywriter for a ${industry} business in Australia. Write a caption for a before and after garden transformation. Casual, Australian English.\n\nThe job: [describe what was done]`},{title:"Seasonal Tip Post",when:"Sharing helpful gardening advice",prompt:`Act as a content creator for a ${industry} business in Australia. Write a helpful social media post with 3-4 seasonal garden tips for homeowners. Position my business as the expert.\n\nCurrent season: [season]\nMy services: [list]`}],"Review requests":[{title:"Review Request",when:"After a successful gardening or landscaping job",prompt:`Act as a customer service assistant for a ${industry} business in Australia. Write a friendly review request message after completing a gardening job. Keep it short and include the review link.\n\nBusiness: [name]\nReview link: [link]\nJob: [brief description]`},{title:"Review Reply",when:"Responding to a positive review",prompt:`Act as the owner of a ${industry} business in Australia. Write a genuine reply to a positive review. Personal and thankful.\n\nReview says: [paste]`},{title:"Review Nudge",when:"They mentioned they'd leave one",prompt:`Act as a friendly assistant for a ${industry} business in Australia. Write a gentle reminder about leaving a review. Light and not awkward.\n\nCustomer: [name]\nJob: [when and what]`}],"Writing quotes":[{title:"Landscaping Quote",when:"Sending a detailed landscaping quote",prompt:`Act as a business writing assistant for a ${industry} business in Australia. Write a professional quote for a landscaping job. Include scope, materials, labour, timeline and payment terms.\n\nJob: [description]\nPricing: [breakdown]`},{title:"Maintenance Plan Quote",when:"Proposing ongoing maintenance",prompt:`Act as a business assistant for a ${industry} business in Australia. Write a quote for ongoing lawn and garden maintenance. Include frequency, services covered and monthly pricing.\n\nServices: [list]\nFrequency: [e.g. fortnightly]\nPrice: [amount]`},{title:"Quote Follow-Up",when:"Haven't heard back",prompt:`Act as a sales assistant for a ${industry} business in Australia. Write a follow-up for a landscaping quote sent [days] ago.\n\nJob: [brief description]`}],"Admin and checklists":[{title:"Job Completion Checklist",when:"Standardising your wrap-up process",prompt:`Act as an operations assistant for a ${industry} business in Australia. Create a job completion checklist for landscaping work including site cleanup, photo documentation, customer walkthrough and invoicing.`},{title:"Weekly Planning",when:"Organising the week ahead",prompt:`Act as a business assistant for a ${industry} business in Australia. Create a weekly planning checklist for a landscaping business covering scheduling, equipment prep, customer comms and admin.`},{title:"Seasonal Prep Checklist",when:"Getting ready for a busy season",prompt:`Act as an operations assistant for a ${industry} business in Australia. Create a seasonal preparation checklist for [season]. Include equipment servicing, marketing, staffing and customer outreach.`}],"Business improvement":[{title:"Quick Wins",when:"Easy improvements",prompt:`Act as a business consultant for a ${industry} business in Australia. Give me 5 quick wins to improve my business this month. Practical, low-cost ideas.\n\nCurrent setup: [describe]`},{title:"Upsell Ideas",when:"Want to increase job value",prompt:`Act as a business advisor for a ${industry} business in Australia. Suggest 5 services or add-ons I could offer existing customers to increase revenue. Keep them practical.\n\nCurrent services: [list]`},{title:"Pricing Strategy",when:"Reviewing your rates",prompt:`Act as a business consultant for a ${industry} business in Australia. Help me review my pricing. Ask the right questions then suggest adjustments.\n\nCurrent rates: [describe]`}]},"Cleaning Business":{"Customer communication":[{title:"Booking Confirmation",when:"Confirming a regular cleaning booking",prompt:`Act as a customer service assistant for a ${industry} in Australia. Write a booking confirmation email for a regular cleaning client. Include date, time, what's included and any prep they need to do.\n\nClient: [name]\nDate/time: [details]\nService: [e.g. regular 3-hour clean]`},{title:"Schedule Change Notice",when:"Need to reschedule a clean",prompt:`Act as a business assistant for a ${industry} in Australia. Write a polite message to a client about needing to reschedule their clean. Offer alternative times.\n\nOriginal booking: [date/time]\nReason: [brief]\nAlternatives: [options]`},{title:"New Client Welcome",when:"First-time client onboarding",prompt:`Act as a customer service assistant for a ${industry} in Australia. Write a welcome message for a new cleaning client. Include what to expect, how to provide access, and what's included.\n\nService booked: [details]\nFirst clean date: [date]`}],"Marketing and social media":[{title:"Month of Social Media Ideas",when:"Need content for the month",prompt:`Act as a social media assistant for a ${industry} in Australia. Create a month's worth of social media post ideas (12 posts). Mix of tips, transformations, testimonials and engagement posts.\n\nServices: [list]\nTarget audience: [e.g. busy families, property managers]`},{title:"Before & After Caption",when:"Sharing a cleaning transformation",prompt:`Act as a social media copywriter for a ${industry} in Australia. Write a short caption for a before and after cleaning photo. Satisfying and relatable.\n\nThe job: [describe]`},{title:"Seasonal Promotion",when:"Running a seasonal offer",prompt:`Act as a marketing assistant for a ${industry} in Australia. Write a promotional post for a seasonal cleaning offer. Clear, compelling and includes a call to action.\n\nOffer: [details]\nValid until: [date]`}],"Review requests":[{title:"End-of-Lease Review Request",when:"After a successful end-of-lease clean",prompt:`Act as a customer service assistant for a ${industry} in Australia. Write a review request after completing an end-of-lease clean. Mention the bond result if possible.\n\nBusiness: [name]\nReview link: [link]\nResult: [e.g. full bond returned]`},{title:"Regular Client Review",when:"Asking a loyal client for a review",prompt:`Act as a friendly assistant for a ${industry} in Australia. Write a message asking a long-term client to leave a Google review. Keep it personal.\n\nClient: [name]\nHow long they've been a client: [time]`},{title:"Review Reply",when:"Responding to a review",prompt:`Act as the owner of a ${industry} in Australia. Write a genuine reply to this review.\n\nReview says: [paste]`}],"Writing quotes":[{title:"Cleaning Quote",when:"Quoting for a new client",prompt:`Act as a business writing assistant for a ${industry} in Australia. Write a professional cleaning quote. Include scope, frequency options, pricing and what's included.\n\nProperty: [type and size]\nServices: [what's included]\nPricing: [details]`},{title:"End-of-Lease Quote",when:"Quoting for a bond clean",prompt:`Act as a business assistant for a ${industry} in Australia. Write a quote for an end-of-lease clean. Include guarantee, what's covered and timeline.\n\nProperty: [size/type]\nPrice: [amount]\nGuarantee: [details]`},{title:"Quote Follow-Up",when:"Haven't heard back",prompt:`Act as a sales assistant for a ${industry} in Australia. Write a friendly follow-up for a cleaning quote sent [days] ago.\n\nQuote was for: [description]`}],"Admin and checklists":[{title:"Cleaning Checklist",when:"Standardising your clean",prompt:`Act as an operations assistant for a ${industry} in Australia. Create a room-by-room cleaning checklist for a [type] clean. Thorough but practical.\n\nClean type: [regular/deep/end-of-lease]`},{title:"Weekly Business Admin",when:"Staying on top of admin",prompt:`Act as a business assistant for a ${industry} in Australia. Create a weekly admin checklist covering scheduling, invoicing, supplies ordering, and client communication.`},{title:"New Cleaner Training",when:"Onboarding a new team member",prompt:`Act as an operations assistant for a ${industry} in Australia. Create a training checklist for a new cleaner covering standards, products, client expectations and processes.`}],"Business improvement":[{title:"Quick Wins",when:"Easy improvements",prompt:`Act as a business consultant for a ${industry} in Australia. Give me 5 quick wins to improve my cleaning business. Practical and low-cost.\n\nCurrent setup: [describe]`},{title:"Client Retention Ideas",when:"Keeping clients long-term",prompt:`Act as a business advisor for a ${industry} in Australia. Give me 5 practical ideas to improve client retention and reduce cancellations.\n\nCurrent situation: [describe]`},{title:"Pricing Review",when:"Reviewing rates",prompt:`Act as a consultant for a ${industry} in Australia. Help me review my pricing. Ask questions and suggest a framework.\n\nCurrent rates: [describe]`}]},"Handyman / Maintenance":{"Quoting":[{title:"Professional Quote from Notes",when:"Turning rough notes into a professional quote",prompt:`Act as a business writing assistant for a ${industry} business in Australia. Turn these rough notes into a professional handyman quote. Include scope, materials, labour, timeline and payment terms.\n\nMy notes: [paste rough notes]`},{title:"Multi-Job Quote",when:"Customer wants several things done",prompt:`Act as a business assistant for a ${industry} business in Australia. Write a quote covering multiple small jobs for one customer. Itemise each with pricing.\n\nJobs: [list each task and estimated price]`},{title:"Quote Follow-Up",when:"Haven't heard back",prompt:`Act as a sales assistant for a ${industry} business in Australia. Write a follow-up for a quote sent [days] ago.\n\nQuote was for: [description]`}],"Customer service":[{title:"Return Visit Explanation",when:"Need to come back to finish a repair",prompt:`Act as a customer service expert for a ${industry} business in Australia. Write a customer update explaining that a repair will need a return visit. Be transparent about why and when.\n\nSituation: [what happened and why you need to return]\nProposed return date: [date]`},{title:"Delay Notification",when:"Running behind schedule",prompt:`Act as a business assistant for a ${industry} business in Australia. Write a message letting a customer know there's a delay. Be upfront and offer a new timeline.\n\nOriginal date: [date]\nNew date: [date]\nReason: [brief]`},{title:"Professional Reply to Enquiry",when:"New customer asks about services",prompt:`Act as a customer service assistant for a ${industry} business in Australia. Write a friendly reply to this customer enquiry.\n\nTheir message: [paste]\nMy services: [list]`}],"Review requests":[{title:"Review Request After Maintenance",when:"After completing maintenance work",prompt:`Act as a customer service assistant for a ${industry} business in Australia. Write a short review request after completing maintenance work.\n\nBusiness: [name]\nReview link: [link]\nJob: [description]`},{title:"Review Reply",when:"Responding to a review",prompt:`Act as the owner of a ${industry} business in Australia. Write a genuine reply.\n\nReview: [paste]`},{title:"Review Nudge",when:"Gentle reminder",prompt:`Act as a friendly assistant for a ${industry} business in Australia. Write a gentle review reminder.\n\nCustomer: [name]\nJob: [when and what]`}],"Admin and checklists":[{title:"Job Checklist",when:"Standard checklist for a job type",prompt:`Act as an operations assistant for a ${industry} business in Australia. Create a checklist for a [type of job] including tools needed, steps, safety and cleanup.\n\nJob type: [describe]`},{title:"Vehicle/Tool Kit Check",when:"Making sure you've got everything",prompt:`Act as a business assistant for a ${industry} business in Australia. Create a daily vehicle and toolkit checklist for a handyman covering common tools, materials and safety equipment.`},{title:"End-of-Week Admin",when:"Friday routine",prompt:`Act as a business assistant for a ${industry} business in Australia. Create an end-of-week admin checklist covering invoicing, quotes, scheduling and follow-ups.`}],"Social media ideas":[{title:"Content Ideas",when:"Need posts",prompt:`Act as a social media assistant for a ${industry} business in Australia. Give me 5 post ideas. Mix of fixes, tips and before/afters.\n\nServices: [describe]`},{title:"Tip Post",when:"Sharing helpful advice",prompt:`Act as a content creator for a ${industry} business in Australia. Write a helpful post with 3 home maintenance tips homeowners can do themselves (and when to call a pro).\n\nMy specialties: [list]`},{title:"Job Highlight",when:"Showcasing a completed job",prompt:`Act as a social media copywriter for a ${industry} business in Australia. Write a caption for a completed job photo.\n\nThe job: [describe]`}],"Business improvement":[{title:"Quick Wins",when:"Easy improvements",prompt:`Act as a consultant for a ${industry} business in Australia. Give me 5 quick wins for this month.\n\nCurrent setup: [describe]`},{title:"Service Expansion Ideas",when:"Want to offer more",prompt:`Act as a business advisor for a ${industry} business in Australia. Suggest 5 services I could add to grow revenue.\n\nCurrent services: [list]`},{title:"Pricing Review",when:"Reviewing rates",prompt:`Act as a consultant for a ${industry} business in Australia. Help me review my pricing.\n\nCurrent rates: [describe]`}]},"Mobile Service Business":{"Customer updates":[{title:"Appointment Reminder",when:"Reminding customer about tomorrow's service",prompt:`Act as a customer service assistant for a ${industry} in Australia. Write a short reminder message for tomorrow's service appointment. Include time, what to expect and any prep needed.\n\nService: [type]\nTime: [time]\nCustomer: [name]\nPrep needed: [e.g. clear access to pool]`},{title:"On My Way Message",when:"Letting them know you're coming",prompt:`Act as a business assistant for a ${industry} in Australia. Write a quick "on my way" message. Include ETA.\n\nETA: [time]\nService: [type]`},{title:"Job Complete Summary",when:"After finishing a service visit",prompt:`Act as a business assistant for a ${industry} in Australia. Write a short job complete message summarising what was done and any follow-up needed.\n\nWork done: [describe]\nNext visit: [if applicable]`}],"Administration":[{title:"Daily Route Planning Checklist",when:"Organising your day",prompt:`Act as an operations assistant for a ${industry} in Australia. Create a daily route planning checklist including job confirmations, equipment check, route optimisation, and end-of-day wrap-up.`},{title:"Service Report Template",when:"Documenting what was done",prompt:`Act as a business assistant for a ${industry} in Australia. Create a simple service report template I can fill in after each job. Include date, customer, work done, materials used and follow-up needed.`},{title:"Weekly Admin",when:"Staying on top of business admin",prompt:`Act as a business assistant for a ${industry} in Australia. Create a weekly admin checklist covering invoicing, scheduling, customer follow-ups, vehicle maintenance and stock check.`}],"Review requests":[{title:"Review Request After Service",when:"After a completed mobile service visit",prompt:`Act as a customer service assistant for a ${industry} in Australia. Write a review request after completing a service visit.\n\nBusiness: [name]\nReview link: [link]\nService: [what was done]`},{title:"Review Reply",when:"Responding to a review",prompt:`Act as the owner of a ${industry} in Australia. Write a genuine reply.\n\nReview: [paste]`},{title:"Review Nudge",when:"Gentle reminder",prompt:`Act as a friendly assistant for a ${industry} in Australia. Write a gentle review reminder.\n\nCustomer: [name]\nService: [when and what]`}],"Social media ideas":[{title:"Content Ideas",when:"Need posts",prompt:`Act as a social media assistant for a ${industry} in Australia. Give me 5 post ideas. Mix of tips, job highlights and behind-the-scenes.\n\nServices: [describe]`},{title:"Tip Post",when:"Sharing expertise",prompt:`Act as a content creator for a ${industry} in Australia. Write a helpful post with 3 tips for homeowners about [service area].\n\nMy specialty: [describe]`},{title:"Seasonal Post",when:"Seasonal relevance",prompt:`Act as a social media copywriter for a ${industry} in Australia. Write a seasonal post about why [season] is important for [service type].\n\nService: [describe]`}],"Writing quotes":[{title:"Service Quote",when:"Quoting for a new customer",prompt:`Act as a business writing assistant for a ${industry} in Australia. Write a professional quote including service description, pricing, frequency options and terms.\n\nService: [describe]\nPricing: [details]`},{title:"Ongoing Service Plan",when:"Proposing regular visits",prompt:`Act as a business assistant for a ${industry} in Australia. Write a quote for an ongoing service plan. Include frequency, what's covered and pricing.\n\nService: [type]\nFrequency: [e.g. monthly]\nPrice: [amount]`},{title:"Quote Follow-Up",when:"Haven't heard back",prompt:`Act as a sales assistant for a ${industry} in Australia. Write a friendly follow-up for a quote sent [days] ago.\n\nQuote was for: [description]`}],"Business improvement":[{title:"Quick Wins",when:"Easy improvements",prompt:`Act as a consultant for a ${industry} in Australia. Give me 5 quick wins.\n\nCurrent setup: [describe]`},{title:"Route Efficiency",when:"Optimising daily routes",prompt:`Act as an operations consultant for a ${industry} in Australia. Help me think through how to optimise my daily routes and reduce travel time. Ask me about my current setup then suggest improvements.\n\nCurrent approach: [describe]`},{title:"Upsell Ideas",when:"Increasing job value",prompt:`Act as a business advisor for a ${industry} in Australia. Suggest 5 add-on services or upsells for my existing customers.\n\nCurrent services: [list]`}]},"Office / Administration":{"Customer service":[{title:"Professional Complaint Response",when:"Responding to a customer complaint",prompt:`Act as a customer service expert for a business in Australia. Write a professional response to a customer complaint. Acknowledge their concern, take responsibility where appropriate, and offer a clear resolution.\n\nThe complaint: [paste or describe]\nBusiness context: [your role/business]`},{title:"Enquiry Response",when:"Replying to a general enquiry",prompt:`Act as a customer service assistant for a business in Australia. Write a helpful reply to this enquiry. Be clear, friendly and include next steps.\n\nEnquiry: [paste]\nRelevant info: [what they need to know]`},{title:"Difficult Conversation Email",when:"Delivering news the customer won't love",prompt:`Act as a communications assistant. Write a professional email delivering [difficult news] to a customer. Be empathetic, clear and solution-focused.\n\nSituation: [describe]\nWhat you can offer: [alternatives or solutions]`}],"Administration":[{title:"Weekly Admin Checklist",when:"Creating a standard weekly routine",prompt:`Act as a business operations assistant. Create a weekly admin checklist for a small business with 5-20 staff. Cover accounts, HR, scheduling, communications and compliance.\n\nBusiness type: [describe]\nTeam size: [number]`},{title:"Document Filing System",when:"Getting organised",prompt:`Act as an operations assistant. Help me create a simple digital filing structure for a small business. Suggest folder names, naming conventions and what to keep where.\n\nBusiness type: [describe]\nCurrent tools: [e.g. Google Drive, Dropbox]`},{title:"Email Templates",when:"Standardising common emails",prompt:`Act as a business assistant. Write 5 email templates for common admin tasks: appointment confirmation, invoice follow-up, meeting request, document request, and thank you/acknowledgement.\n\nBusiness: [describe]\nTone: [friendly/formal]`}],"Operations and processes":[{title:"Process Review",when:"Reviewing and improving a process",prompt:`Act as an operations consultant. Review this process and suggest ways to reduce manual work and improve efficiency. Identify bottlenecks, unnecessary steps and automation opportunities.\n\nCurrent process: [describe step by step]`},{title:"SOP Template",when:"Documenting a process",prompt:`Act as an operations assistant. Help me write a Standard Operating Procedure for [task]. Include purpose, steps, who's responsible and quality checks.\n\nTask: [describe]\nWho does it: [role]\nFrequency: [how often]`},{title:"Automation Opportunities",when:"Want to reduce manual work",prompt:`Act as a business efficiency consultant. Based on my current workflows, suggest 5 things I could automate or streamline using simple tools. No expensive enterprise software.\n\nMy workflows: [describe daily/weekly tasks]`}],"Meeting notes":[{title:"Meeting Notes to Actions",when:"Turning messy notes into clear actions",prompt:`Act as a business operations assistant. Turn these meeting notes into a clear summary with: key decisions made, action items with owners and due dates, and any follow-up needed.\n\nMeeting notes: [paste notes]`},{title:"Meeting Agenda",when:"Planning an effective meeting",prompt:`Act as a business assistant. Create a focused meeting agenda for [meeting topic]. Include time allocations, discussion points and desired outcomes. Keep it under [duration].\n\nMeeting purpose: [describe]\nAttendees: [who]\nDuration: [time]`},{title:"Follow-Up Email",when:"Sending meeting outcomes to attendees",prompt:`Act as a business assistant. Write a follow-up email summarising a meeting. Include decisions, actions assigned and next meeting date.\n\nMeeting summary: [paste or describe key points]`}],"Payroll":[{title:"Payroll Processing Checklist",when:"Running payroll for a small team",prompt:`Act as a payroll and operations assistant. Create a payroll processing checklist for a business with [number] employees. Cover timesheets, leave, super, tax and payment. Include common Australian compliance items.\n\nPay frequency: [weekly/fortnightly/monthly]\nTeam size: [number]\nPayroll system: [if applicable]`},{title:"Leave Request Process",when:"Standardising leave management",prompt:`Act as an HR operations assistant. Create a simple leave request and approval process for a small team. Include how to request, who approves, notice periods and how to track.\n\nTeam size: [number]\nCurrent system: [describe]`},{title:"New Starter Onboarding",when:"Setting up a new employee",prompt:`Act as an HR assistant. Create a new starter onboarding checklist covering paperwork (TFN, super choice, employment contract), system access, training schedule and first-week plan.\n\nRole: [position]\nStart date: [date]`}],"Business improvement":[{title:"Efficiency Audit",when:"Finding time savings",prompt:`Act as a business efficiency consultant. Help me audit my weekly tasks and identify where I'm spending too much time. Ask me about my routine then suggest improvements.\n\nMy role: [describe]\nBiggest time sinks: [if known]`},{title:"Team Communication",when:"Improving how the team communicates",prompt:`Act as an operations consultant. Suggest 5 practical ways to improve internal communication for a small team. No complicated tools.\n\nTeam size: [number]\nCurrent tools: [list]\nBiggest issue: [describe]`},{title:"Quick Wins",when:"Easy improvements",prompt:`Act as a business consultant. Give me 5 quick wins for improving office efficiency this month.\n\nCurrent setup: [describe]`}]},"Other Small Business":{"Customer communication":[{title:"Professional Reply",when:"Responding to a customer message",prompt:`Act as a business assistant for a small business in Australia. Write a professional reply to this customer message. Friendly and clear.\n\nTheir message: [paste]\nMy business: [describe]`},{title:"Follow-Up Message",when:"Checking in with a lead",prompt:`Act as a sales assistant for a small business in Australia. Write a follow-up message for a potential customer who enquired [time] ago.\n\nEnquiry about: [describe]`},{title:"Thank You Message",when:"After a purchase or booking",prompt:`Act as a customer service assistant for a small business in Australia. Write a thank you message after a customer purchase or booking.\n\nWhat they purchased/booked: [describe]`}],"Social media":[{title:"Content Ideas",when:"Need posts",prompt:`Act as a social media assistant for a small business in Australia. Give me 10 social media post ideas. Mix of educational, behind-the-scenes, customer stories and engagement posts.\n\nBusiness: [describe]\nTarget audience: [describe]`},{title:"Bio and Intro",when:"Setting up a profile",prompt:`Act as a social media copywriter for a small business in Australia. Write a compelling social media bio and intro post.\n\nBusiness: [name and what you do]\nPersonality: [how you want to come across]`},{title:"Engagement Post",when:"Getting conversation going",prompt:`Act as a content creator for a small business in Australia. Write 3 engagement post ideas that encourage comments and shares. Related to my industry.\n\nBusiness type: [describe]`}],"Business administration":[{title:"Weekly Checklist",when:"Staying on top of admin",prompt:`Act as a business assistant for a small business in Australia. Create a weekly admin checklist covering finances, customer follow-ups, marketing tasks and operations.\n\nBusiness type: [describe]`},{title:"Process Documentation",when:"Writing down how things work",prompt:`Act as an operations assistant. Help me document this process step by step so someone else could follow it.\n\nProcess: [describe what you do]`},{title:"Goal Setting",when:"Planning the month ahead",prompt:`Act as a business coach. Help me set 3 practical monthly goals for my small business. Ask me about my current situation then suggest SMART goals.\n\nBusiness: [describe]\nBiggest challenge: [describe]`}],"Reviews":[{title:"Review Request",when:"Asking for a review",prompt:`Act as a customer service assistant for a small business in Australia. Write a friendly review request.\n\nBusiness: [name]\nReview link: [link]\nWhat you did for them: [brief description]`},{title:"Review Reply",when:"Responding to a review",prompt:`Act as a business owner in Australia. Write a genuine reply.\n\nReview: [paste]`},{title:"Handling a Negative Review",when:"Responding professionally to criticism",prompt:`Act as a customer service expert for a small business in Australia. Write a professional, empathetic reply to a negative review. Acknowledge, offer resolution.\n\nReview: [paste]\nContext: [what actually happened]`}],"Business improvement":[{title:"Quick Wins",when:"Easy improvements",prompt:`Act as a small business consultant in Australia. Give me 5 quick wins for this month.\n\nBusiness: [describe]\nBiggest challenge: [describe]`},{title:"Customer Experience Audit",when:"Improving the customer journey",prompt:`Act as a business consultant. Help me map and improve my customer journey from first contact to repeat purchase. Ask me questions then suggest improvements.\n\nBusiness: [describe]`},{title:"Competitive Edge",when:"Standing out from competitors",prompt:`Act as a business strategist for a small business in Australia. Help me identify my competitive advantages and how to communicate them better.\n\nBusiness: [describe]\nCompetitors: [who they are]\nWhat I do differently: [if known]`}],"Process improvement":[{title:"Process Audit",when:"Finding inefficiencies",prompt:`Act as an operations consultant. Review this process and suggest improvements. Look for manual steps that could be simplified or automated.\n\nProcess: [describe step by step]`},{title:"Template Creation",when:"Standardising repetitive work",prompt:`Act as a business efficiency expert. Help me create a reusable template for [task]. I do this [frequency] and it takes too long.\n\nTask: [describe]\nCurrent approach: [how you do it now]`},{title:"Time Audit",when:"Finding where time goes",prompt:`Act as a productivity consultant. Help me audit how I spend my work week and identify the biggest time wasters. Ask me about my typical week then suggest changes.\n\nMy role: [describe]\nTypical week: [rough breakdown]`}]}};
+      if(p[industry]&&p[industry][task])return p[industry][task];
+      return[{title:"General Business Prompt",when:"For any business task",prompt:`Act as a practical business assistant for a ${industry} business in Australia. Help me with: ${task}. Keep it simple and clear.\n\n[paste your details here]`},{title:"Quick Draft",when:"Need something written fast",prompt:`Act as a writing assistant for a ${industry} business in Australia. Write a quick draft for: ${task}. Friendly, professional, Australian English.\n\n[add your details]`},{title:"Brainstorm Ideas",when:"Need options",prompt:`Act as a business advisor for a ${industry} business in Australia. Give me 5 ideas for: ${task}. Practical and easy to implement.\n\n[describe your situation]`}];
+    }
+
+    document.querySelectorAll('.card-option').forEach(card=>card.setAttribute('aria-pressed','false'));
+  </script>
+</body></html>
